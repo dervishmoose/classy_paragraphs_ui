@@ -109,7 +109,7 @@ function classy_paragraphs_ui_delete(){
   $setting_array =variable_get('classy_paragraphs_settings');
   dsm($item );
   unset($setting_array[$item]);
-dsm('setting_array');
+  //dsm('setting_array');
   variable_set('classy_paragraphs_settings', $setting_array);
 
 }
@@ -212,6 +212,9 @@ return $form;
 }
 
 function classy_paragraphs_ui_classy_paragraphs_list_options_alter(&$options) {
-  $options['col-md-4'] = t('Bootstrap: 4 column');
-  $options['col-md-3'] = t('Bootstrap: 3 column');
+  $setting_array =variable_get('classy_paragraphs_settings');
+
+  foreach ($setting_array as $key => $value){
+    $options[$value['css_class_name']] = t($value['css_class_name']);
+  }
 }
