@@ -1,0 +1,217 @@
+<?php
+
+
+//next step is to make the add link work
+
+
+/**
+ * @file
+ * classy_paragraphs_ui.module
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function classy_paragraphs_ui_menu() {
+  $items['admin/config/content/classy-paragraphs-ui/edit/%'] = array(
+   'title' => 'Classy Paragraphs UI ',
+   'description' => 'Configuration for Classy Paragraphs',
+   'page callback' => 'classy_paragraphs_ui_form',
+   'page arguments' => array(4),
+   'access arguments' => array('administer users'),
+
+  );
+
+  $items['admin/config/content/classy-paragraphs-ui/add'] = array(
+   'title' => 'Classy Paragraphs UI ',
+   'description' => 'Configuration for Classy Paragraphs',
+   'page callback' => 'classy_paragraphs_ui_form',
+   'page arguments' => array(4),
+   'access arguments' => array('administer users'),
+
+  );
+  $items['admin/config/content/classy-paragraphs-ui/delete/%'] = array(
+   'title' => 'Classy Paragraphs UI ',
+   'description' => 'Configuration for Classy Paragraphs',
+   'page callback' => 'classy_paragraphs_ui_delete_form',
+   'page arguments' => array(4),
+   'access arguments' => array('administer users'),
+
+  );
+
+  $items['admin/config/content/classy-paragraphs-ui'] = array(
+   'title' => 'Classy Paragraphs UI ',
+   'description' => 'Configuration for Classy Paragraphs',
+   'page callback' => 'classy_paragraphs_ui_list',
+   'page arguments' => array(3),
+   'access arguments' => array('administer users'),
+   'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function classy_paragraphs_ui_form_alter(&$form, &$form_state, $form_id) {
+  $form['#action'] = '?destination=admin/config/content/classy-paragraphs-ui';
+}
+
+/**
+ * Returns the form.
+ */
+function classy_paragraphs_ui_form() {
+  return drupal_get_form('classy_paragraphs_ui_edit');
+}
+
+function classy_paragraphs_ui_add_form() {
+  return drupal_get_form('classy_paragraphs_ui_add');
+}
+
+function classy_paragraphs_ui_delete_form() {
+  return drupal_get_form('classy_paragraphs_ui_delete');
+}
+/**
+ * Admin form
+ */
+function classy_paragraphs_ui_edit() {
+  $form = array();
+
+  //get the arugment passed or use first
+  //$item = arg(5) ?: 0;
+
+  //$setting_array =$setting_array[0];
+  $op = 'edit';
+    $form = classy_paragraphs_ui_add_edit_form($form, $form_state, $op);
+
+
+ //return system_settings_form($form);
+ return $form;
+}
+function classy_paragraphs_ui_add() {
+  $form = array();
+
+  //get the arugment passed or use first
+
+
+  //$setting_array =$setting_array[0];
+  $op = 'add';
+    $form = classy_paragraphs_ui_add_edit_form($form, $form_state, $op);
+
+
+ //return system_settings_form($form);
+ return $form;
+}
+
+function classy_paragraphs_ui_delete(){
+  $item = arg(5) ?: '';
+  $setting_array =variable_get('classy_paragraphs_settings');
+  dsm($item );
+  unset($setting_array[$item]);
+dsm('setting_array');
+  variable_set('classy_paragraphs_settings', $setting_array);
+
+}
+
+function classy_paragraphs_ui_edit_submit($form, &$form_state) {
+  $item = arg(5) ?: '';
+
+  form_state_values_clean($form_state);
+
+  //get the settings array
+  $setting_array =variable_get('classy_paragraphs_settings');
+  if($item){
+    $setting_array[$item] = $form_state ['values'];
+  }else{
+    $setting_array[] = $form_state ['values'];
+  }
+
+
+  $classy_paragraphs_settings = $setting_array;
+  variable_set('classy_paragraphs_settings', $classy_paragraphs_settings);
+
+}
+
+function classy_paragraphs_ui_list() {
+  $setting_array =variable_get('classy_paragraphs_settings');
+  $header = array('Name', 'Class', 'Edit', 'Delete');
+
+  foreach ($setting_array as $key => $value){
+      $rows[] = array(
+      $value['css_class_display'],
+      $value['css_class_name'],
+        '<a href="/admin/config/content/classy-paragraphs-ui/edit/'. $key .'">edit</a>',
+        '<a href="/admin/config/content/classy-paragraphs-ui/delete/'. $key .'">delete</a>',
+
+                  );
+
+
+     }
+
+    // dsm($rows);
+    //return theme('table', $header, $rows);
+    $out = '<a href="/admin/config/content/classy-paragraphs-ui/add">+ add new class</a>';
+    $out .= theme('table', array('header' => $header, 'rows' => $rows));
+    return $out;
+
+
+//  $out = theme_table(  $headers, $setting_array);
+ //$out = '<a href="/admin/config/content/classy-paragraphs-ui/edit/1">edit</a>';
+ //dsm($setting_array);
+ //echo $out;
+  //return $out;
+}
+
+function classy_paragraphs_ui_add_edit_form($form, &$form_state, $op){
+
+  $item = arg(5) ?: '';
+  $setting_array =variable_get('classy_paragraphs_settings');
+  //dsm($setting_serial);
+  //$setting_array = unserialize ( $setting_serial);
+
+  if ($op == 'edit'){
+    $default_value = $setting_array[$item];
+  }else{
+    $default_value = array('css_class_name'=>'','css_class_display'=>'');
+  }
+
+
+  /**
+   * CSS class name
+   */
+  $form['css_class_name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('CSS Class name'),
+    '#default_value' => $default_value['css_class_name'],
+    '#size' => 16,
+    '#maxlength' => 30,
+    '#description' => t("The CSS class name you wish to add to a paragraph."),
+    '#required' => TRUE,
+  );
+
+  /**
+   * CSS Pretty or display class name
+   */
+  $form['css_class_display'] = array(
+    '#type' => 'textfield',
+    '#title' => t('CSS Pretty Name'),
+    '#default_value' => $default_value['css_class_display'],
+    '#size' => 16,
+    '#maxlength' => 30,
+    '#description' => t("The CSS class pretty name or display name."),
+    '#required' => TRUE,
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Submit',
+  );
+
+return $form;
+}
+
+function classy_paragraphs_ui_classy_paragraphs_list_options_alter(&$options) {
+  $options['col-md-4'] = t('Bootstrap: 4 column');
+  $options['col-md-3'] = t('Bootstrap: 3 column');
+}
