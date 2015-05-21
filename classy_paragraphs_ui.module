@@ -46,12 +46,6 @@ function classy_paragraphs_ui_menu() {
   return $items;
 }
 
-/**
- * Implements hook_form_alter().
- */
-function classy_paragraphs_ui_form_alter(&$form, &$form_state, $form_id) {
-  $form['#action'] = '?destination=admin/config/content/classy-paragraphs-ui';
-}
 
 
 /**
@@ -83,6 +77,7 @@ function classy_paragraphs_ui_add($form, &$form_state) {
 function classy_paragraphs_ui_delete($form, &$form_state, $the_id){
 
   $form = array();
+  $form['#action'] = '?destination=admin/config/content/classy-paragraphs-ui';
   $form['the_id'] = array(
     '#type' => 'value',
     '#value' => $the_id,
@@ -212,7 +207,7 @@ function classy_paragraphs_ui_add_edit_form($form, &$form_state, $the_id, $op){
     '#type' => 'submit',
     '#value' => 'Submit',
   );
-
+  $form['#action'] = '?destination=admin/config/content/classy-paragraphs-ui';
   return $form;
 }
 
