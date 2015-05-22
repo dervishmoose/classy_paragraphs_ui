@@ -186,7 +186,7 @@ function classy_paragraphs_ui_add_edit_form($form, &$form_state, $the_id, $op){
     '#default_value' => $default_value['css_class_name'],
     '#size' => 16,
     '#maxlength' => 30,
-    '#description' => t("The CSS class name you wish to add to a paragraph."),
+    '#description' => t("The CSS class name you wish to add to a paragraph. Class names can contain only the characters [a-z0-9], hyphens (-) and underscores (_); they cannot start with a digit."),
     '#required' => TRUE,
   );
 
@@ -199,7 +199,7 @@ function classy_paragraphs_ui_add_edit_form($form, &$form_state, $the_id, $op){
     '#default_value' => $default_value['css_class_display'],
     '#size' => 16,
     '#maxlength' => 30,
-    '#description' => t("The CSS class pretty name or display name."),
+    '#description' => t("The CSS class pretty name or display name, used for admin only."),
     '#required' => TRUE,
   );
 
