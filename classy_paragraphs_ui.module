@@ -215,6 +215,6 @@ function classy_paragraphs_ui_classy_paragraphs_list_options_alter(&$options) {
   $setting_array =variable_get('classy_paragraphs_settings');
 
   foreach ($setting_array as $key => $value){
-    $options[$value['css_class_name']] = t($value['css_class_name']);
+    $options[$value['css_class_name']] = t($value['css_class_display']);
   }
 }
