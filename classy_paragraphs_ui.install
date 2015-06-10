@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * @file
+ * classy_paragraphs_ui.install
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function classy_paragraphs_ui_uninstall() {
+  variable_del('classy_paragraphs_settings');
+}
