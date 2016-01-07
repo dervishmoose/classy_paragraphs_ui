@@ -2,3 +2,5 @@ name = Classy Paragraphs UI
 description = Provides a simple UI for Classy Paragraphs
 core = 7.x
 dependencies[] = classy_paragraphs
+
+configure = admin/config/content/classy-paragraphs-ui
