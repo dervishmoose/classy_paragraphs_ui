@@ -27,7 +27,6 @@ function classy_paragraphs_ui_menu() {
    'page callback' => 'drupal_get_form',
    'page arguments' => array('classy_paragraphs_ui_edit', 4),
    'access arguments' => array('administer classy paragraphs'),
-
   );
 
   $items['admin/config/content/classy-paragraphs-ui/add'] = array(
