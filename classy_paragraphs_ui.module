@@ -6,6 +6,17 @@
  */
 
 /**
+ * Implements hook_permission().
+ */
+function classy_paragraphs_ui_permission() {
+  return array(
+    'administer classy paragraphs ui' => array(
+      'title' => t('Administer Classy Paragraphs'),
+    ),
+  );
+}
+
+/**
  * Implements hook_menu().
  */
 function classy_paragraphs_ui_menu() {
@@ -14,7 +25,7 @@ function classy_paragraphs_ui_menu() {
    'description' => 'Configuration for Classy Paragraphs',
    'page callback' => 'drupal_get_form',
    'page arguments' => array('classy_paragraphs_ui_edit', 4),
-   'access arguments' => array('administer users'),
+   'access arguments' => array('administer classy paragraphs ui'),
 
   );
 
@@ -23,7 +34,7 @@ function classy_paragraphs_ui_menu() {
     'description' => 'Configuration for Classy Paragraphs',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('classy_paragraphs_ui_add'),
-    'access arguments' => array('administer users'),
+    'access arguments' => array('administer classy paragraphs ui'),
     'type' => MENU_LOCAL_ACTION,
   );
   $items['admin/config/content/classy-paragraphs-ui/%/delete'] = array(
@@ -31,7 +42,7 @@ function classy_paragraphs_ui_menu() {
    'description' => 'Configuration for Classy Paragraphs',
    'page callback' => 'drupal_get_form',
    'page arguments' => array('classy_paragraphs_ui_delete',4),
-   'access arguments' => array('administer users'),
+   'access arguments' => array('administer classy paragraphs ui'),
 
   );
 
@@ -39,7 +50,7 @@ function classy_paragraphs_ui_menu() {
    'title' => 'Classy Paragraphs UI ',
    'description' => 'Configuration for Classy Paragraphs',
    'page callback' => 'classy_paragraphs_ui_list',
-   'access arguments' => array('administer users'),
+   'access arguments' => array('administer classy paragraphs ui'),
    'type' => MENU_NORMAL_ITEM,
   );
 
