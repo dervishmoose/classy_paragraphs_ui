@@ -6,6 +6,18 @@
  */
 
 /**
+ * Implements hook_permission().
+ */
+function classy_paragraphs_ui_permission() {
+  return array(
+    'administer classy paragraphs' => array(
+      'title' => t('Administer Classy Paragraphs via UI'),
+      'description' => t('Add and remove paragraph classes via the UI.'),
+    ),
+  );
+}
+
+/**
  * Implements hook_menu().
  */
 function classy_paragraphs_ui_menu() {
@@ -14,8 +26,7 @@ function classy_paragraphs_ui_menu() {
    'description' => 'Configuration for Classy Paragraphs',
    'page callback' => 'drupal_get_form',
    'page arguments' => array('classy_paragraphs_ui_edit', 4),
-   'access arguments' => array('administer users'),
-
+   'access arguments' => array('administer classy paragraphs'),
   );
 
   $items['admin/config/content/classy-paragraphs-ui/add'] = array(
